@@ -54,9 +54,9 @@
 		A6724FEC2A78E88A00BAFE9D /* MySkills */ = {
 			isa = PBXGroup;
 			children = (
-				A67250032A78E94F00BAFE9D /* ViewModel */,
-				A67250022A78E94700BAFE9D /* View */,
 				A67250012A78E93900BAFE9D /* Model */,
+				A67250022A78E94700BAFE9D /* View */,
+				A67250032A78E94F00BAFE9D /* ViewModel */,
 				A6724FF62A78E88B00BAFE9D /* Assets.xcassets */,
 				A6724FF82A78E88B00BAFE9D /* LaunchScreen.storyboard */,
 				A6724FFB2A78E88B00BAFE9D /* Info.plist */,
