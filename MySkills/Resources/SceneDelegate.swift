@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let window = window else { return }
         
         window.windowScene = windowScene
-        window.rootViewController = ProfileViewController()
+        window.rootViewController = ProfileViewControllerAssembly.shared.viewController
         window.makeKeyAndVisible()
     }
 
