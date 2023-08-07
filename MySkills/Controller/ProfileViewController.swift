@@ -27,7 +27,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let profileView = profileView else { return }
     }
     
     override func viewDidLayoutSubviews() {

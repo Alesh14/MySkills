@@ -13,7 +13,8 @@ struct ProfileViewControllerAssembly {
     static let shared: ProfileViewControllerAssembly = ProfileViewControllerAssembly()
     
     var viewController: UIViewController {
-        let viewController = ProfileViewController(profileView: ProfileView())
+        let profileView = ProfileView()
+        let viewController = ProfileViewController(profileView: profileView)
         return viewController
     }
     

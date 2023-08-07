@@ -9,10 +9,10 @@ import UIKit
 import Foundation
 
 class ProfileView: UIView {
-
+    
     private lazy var container: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .blue
+        scrollView.backgroundColor = .systemBackground
         scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -83,7 +83,7 @@ class ProfileView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-        
+    
     private lazy var location: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [locationImageView, locationLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -99,13 +99,37 @@ class ProfileView: UIView {
         return label
     }()
     
+    private var penImage = UIImage(systemName: "highlighter")
+    private var doneImage = UIImage(systemName: "checkmark.circle")
+    
     private lazy var customizeButton: UIButton = {
         let button = UIButton()
-        let image = UIImage(systemName: "highlighter")
-        button.setImage(image, for: .normal)
+        button.setImage(penImage, for: .normal)
         button.tintColor = .label
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
+    }()
+    
+    private var isEditing: Bool = false {
+        didSet {
+            skillList.reloadData()
+            if isEditing == false {
+                customizeButton.setImage(penImage, for: .normal)
+            } else {
+                customizeButton.setImage(doneImage, for: .normal)
+            }
+        }
+    }
+    
+    private lazy var skillList: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.delegate = self
+        view.dataSource = self
+        view.showsVerticalScrollIndicator = false
+        view.register(SkillCell.self, forCellWithReuseIdentifier: "cell")
+        return view
     }()
     
 }
@@ -122,19 +146,19 @@ extension ProfileView: ProfileViewDelegate {
             container.leadingAnchor.constraint(equalTo: leadingAnchor),
             container.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
-        
+
         container.addSubview(titleView)
         NSLayoutConstraint.activate([
             titleView.topAnchor.constraint(equalTo: container.topAnchor),
             titleView.widthAnchor.constraint(equalTo: container.widthAnchor),
         ])
-        
+
         titleView.addSubview(titleLabel)
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor, constant: safeAreaInsets.top + 18.0)
         ])
-     
+
         titleView.addSubview(avatarImageView)
         NSLayoutConstraint.activate([
             avatarImageView.widthAnchor.constraint(equalToConstant: 120.0),
@@ -142,16 +166,16 @@ extension ProfileView: ProfileViewDelegate {
             avatarImageView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor),
             avatarImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24.0)
         ])
-        
+
         avatarImageView.layoutIfNeeded()
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2.0
-        
+
         titleView.addSubview(fullnameLabel)
         NSLayoutConstraint.activate([
             fullnameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 16.0),
             fullnameLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor)
         ])
-        
+
         titleView.addSubview(stackLabel)
         NSLayoutConstraint.activate([
             stackLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor),
@@ -162,13 +186,13 @@ extension ProfileView: ProfileViewDelegate {
             locationImageView.widthAnchor.constraint(equalToConstant: 16.0),
             locationImageView.heightAnchor.constraint(equalToConstant: 16.0)
         ])
-        
+
         titleView.addSubview(location)
         NSLayoutConstraint.activate([
             location.topAnchor.constraint(equalTo: stackLabel.bottomAnchor),
             location.centerXAnchor.constraint(equalTo: titleView.centerXAnchor)
         ])
-        
+
         location.layoutIfNeeded()
         titleLabel.layoutIfNeeded()
         fullnameLabel.layoutIfNeeded()
@@ -176,19 +200,19 @@ extension ProfileView: ProfileViewDelegate {
         NSLayoutConstraint.activate([
             titleView.heightAnchor.constraint(equalToConstant: 18.0 + safeAreaInsets.top + 16.0 + 24.0 + avatarImageView.height + titleLabel.height + fullnameLabel.height + stackLabel.height + 4.0 + location.height + 20.0)
         ])
-        
+
         container.addSubview(centerView)
         NSLayoutConstraint.activate([
             centerView.topAnchor.constraint(equalTo: titleView.bottomAnchor),
             centerView.widthAnchor.constraint(equalTo: container.widthAnchor)
         ])
-        
+
         centerView.addSubview(skillLabel)
         NSLayoutConstraint.activate([
             skillLabel.topAnchor.constraint(equalTo: centerView.topAnchor, constant: 20.0),
             skillLabel.leadingAnchor.constraint(equalTo: centerView.leadingAnchor, constant: 16.0)
         ])
-        
+
         centerView.addSubview(customizeButton)
         NSLayoutConstraint.activate([
             customizeButton.widthAnchor.constraint(equalToConstant: 24.0),
@@ -196,11 +220,56 @@ extension ProfileView: ProfileViewDelegate {
             customizeButton.topAnchor.constraint(equalTo: centerView.topAnchor, constant: 20.0),
             customizeButton.trailingAnchor.constraint(equalTo: centerView.trailingAnchor, constant: -16.0)
         ])
-        
+
         skillLabel.layoutIfNeeded()
         NSLayoutConstraint.activate([
             centerView.heightAnchor.constraint(equalToConstant: skillLabel.height + 20.0)
         ])
+
+        container.addSubview(skillList)
+        addSubview(skillList)
+        NSLayoutConstraint.activate([
+            skillList.topAnchor.constraint(equalTo: centerView.bottomAnchor, constant: 10.0),
+            skillList.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            skillList.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16.0),
+            skillList.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16.0)
+        ])
+    }
+    
+    @objc func didTapButton() {
+        isEditing = !isEditing
     }
 
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension ProfileView: UICollectionViewDelegate {
+    
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension ProfileView: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        50
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? SkillCell
+        guard let cell = cell else { return UICollectionViewCell() }
+        cell.skillText.text = "\(indexPath.row)"
+        if isEditing == true {
+            cell.contentView.wobble()
+        } else {
+            cell.contentView.layerremoveAllAnimations()
+        }
+        return cell
+    }
+    
 }
