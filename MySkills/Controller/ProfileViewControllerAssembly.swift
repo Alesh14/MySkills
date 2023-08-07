@@ -13,7 +13,15 @@ struct ProfileViewControllerAssembly {
     static let shared: ProfileViewControllerAssembly = ProfileViewControllerAssembly()
     
     var viewController: UIViewController {
-        let profileView = ProfileView()
+        
+        let profile = Profile(
+                    name: "Alisher", surname: "Manatbek",
+                    fathername: "Almatuly", photo: UIImage(named: "Avatar") ?? UIImage(),
+                    stack: "stack", location: "Almaty",
+                    skills: ["XCode", "Swift", "C++", "Java", "UIKit", "SnapKit", "MapKit", "SwiftUI", "ACM", "MVVM", "MVC"]
+        )
+        
+        let profileView = ProfileView(profile: profile)
         let viewController = ProfileViewController(profileView: profileView)
         return viewController
     }

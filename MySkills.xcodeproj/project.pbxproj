@@ -19,6 +19,7 @@
 		A6724FF22A78E88A00BAFE9D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6724FF12A78E88A00BAFE9D /* ProfileViewController.swift */; };
 		A6724FF72A78E88B00BAFE9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6724FF62A78E88B00BAFE9D /* Assets.xcassets */; };
 		A6724FFA2A78E88B00BAFE9D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6724FF82A78E88B00BAFE9D /* LaunchScreen.storyboard */; };
+		A69DD6FA2A80D5A8000F1481 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69DD6F92A80D5A8000F1481 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		A6BD695D2A7E0AF90055FE2F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A6BD695F2A7E0AF90055FE2F /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		A6724FF62A78E88B00BAFE9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A6724FF92A78E88B00BAFE9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A6724FFB2A78E88B00BAFE9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A69DD6F92A80D5A8000F1481 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		A6BD695E2A7E0AF90055FE2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -142,6 +144,7 @@
 				A6719CAD2A7FDE9E000AACDD /* Cell */,
 				A61124892A7E4C7F005F9CCE /* Delegate */,
 				A61124852A7E4525005F9CCE /* ProfileView.swift */,
+				A69DD6F92A80D5A8000F1481 /* LeftAlignedCollectionViewFlowLayout.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				A61124842A7E0FA8005F9CCE /* Constants.swift in Sources */,
 				A61124822A7E0C5A005F9CCE /* Extenstions.swift in Sources */,
 				A6724FF22A78E88A00BAFE9D /* ProfileViewController.swift in Sources */,
+				A69DD6FA2A80D5A8000F1481 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				A611248B2A7E4C8F005F9CCE /* ProfileViewDelegate.swift in Sources */,
 				A61124882A7E45B6005F9CCE /* Profile.swift in Sources */,
 				A6724FEE2A78E88A00BAFE9D /* AppDelegate.swift in Sources */,

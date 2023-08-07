@@ -16,5 +16,4 @@ struct Profile {
     let stack: String
     let location: String
     var skills: [String]
-    let about: String
 }

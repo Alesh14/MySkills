@@ -50,8 +50,8 @@ extension UIView {
     func wobble(duration: CFTimeInterval = .infinity) {
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
-        animation.duration = 0.2
-        animation.values = [0.015, 0.03, 0.015, 0, -0.015, -0.03, -0.015, 0]
+        animation.duration = (Int.random(in: 1...2) % 2 == 0 ? 0.30 :  0.2)
+        animation.values = [0.025, 0.03, 0.025, 0, -0.025, -0.03, -0.025, 0]
         animation.repeatDuration = duration
         layer.add(animation, forKey: "wobble")
     }

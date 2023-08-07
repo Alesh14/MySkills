@@ -10,6 +10,17 @@ import Foundation
 
 class ProfileView: UIView {
     
+    public var profile: Profile
+    
+    init(profile: Profile) {
+        self.profile = profile
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var container: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .systemBackground
@@ -123,7 +134,7 @@ class ProfileView: UIView {
     }
     
     private lazy var skillList: UICollectionView = {
-        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let view = UICollectionView(frame: .zero, collectionViewLayout: LeftAlignedCollectionViewFlowLayout())
         view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
         view.dataSource = self
@@ -257,19 +268,43 @@ extension ProfileView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        50
+        if isEditing == true {
+            return profile.skills.count + 1
+        }
+        return profile.skills.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? SkillCell
         guard let cell = cell else { return UICollectionViewCell() }
-        cell.skillText.text = "\(indexPath.row)"
+        if (indexPath.row == profile.skills.count) {
+            cell.skillText.text = "+"
+            cell.minusButton.isHidden = true
+            return cell
+        }
         if isEditing == true {
             cell.contentView.wobble()
         } else {
             cell.contentView.layerremoveAllAnimations()
         }
+        cell.minusButton.isHidden = !isEditing
+        cell.skillText.text = profile.skills[indexPath.row]
         return cell
     }
     
+}
+
+extension ProfileView: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt: IndexPath) -> CGSize {
+        if (sizeForItemAt.row == profile.skills.count) {
+            let text = "+"
+            let size = text.size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
+            return CGSize(width: size.width + 40, height: 50)
+        }
+        let text = profile.skills[sizeForItemAt.row]
+        let size = text.size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
+        return CGSize(width: size.width + 20, height: 50)
+    }
+
 }
