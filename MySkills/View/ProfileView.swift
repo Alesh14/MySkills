@@ -259,15 +259,15 @@ extension ProfileView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if (indexPath.row == profile.skills.count) {
-            let alertController = UIAlertController(title: "Add Skill", message: "Enter a new skill", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Add Skill".localized, message: "Enter a new skill".localized, preferredStyle: .alert)
             
             alertController.addTextField { textField in
-                textField.placeholder = "Skill Name"
+                textField.placeholder = "Skill Name".localized
             }
             
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            let cancelAction = UIAlertAction(title: "Cancel".localized, style: .cancel)
             
-            let addAction = UIAlertAction(title: "Add", style: .default) { [weak self, weak alertController] _ in
+            let addAction = UIAlertAction(title: "Add".localized, style: .default) { [weak self, weak alertController] _ in
                 guard let self = self else { return }
                 guard let textField = alertController?.textFields?.first, let skillName = textField.text else {
                     return
