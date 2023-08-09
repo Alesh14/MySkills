@@ -35,3 +35,9 @@ class ProfileViewController: UIViewController {
     }
     
 }
+
+extension ProfileViewController: ProfileViewControllerProtocol {
+    func present(alertController: UIAlertController) {
+        present(alertController, animated: true)
+    }
+}

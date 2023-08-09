@@ -9,8 +9,8 @@ import UIKit
 import Foundation
 
 class ProfileView: UIView {
-    
-    public var profile: Profile
+    var profile: Profile
+    var delegate: ProfileViewControllerProtocol?
     
     init(profile: Profile) {
         self.profile = profile
@@ -257,6 +257,35 @@ extension ProfileView: ProfileViewDelegate {
 
 extension ProfileView: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if (indexPath.row == profile.skills.count) {
+            let alertController = UIAlertController(title: "Add Skill", message: "Enter a new skill", preferredStyle: .alert)
+            
+            alertController.addTextField { textField in
+                textField.placeholder = "Skill Name"
+            }
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            
+            let addAction = UIAlertAction(title: "Add", style: .default) { [weak self, weak alertController] _ in
+                guard let self = self else { return }
+                guard let textField = alertController?.textFields?.first, let skillName = textField.text else {
+                    return
+                }
+                
+                if skillName.isEmpty == false {
+                    self.profile.skills.append(skillName)
+                    self.skillList.reloadData()
+                }
+            }
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(addAction)
+            
+            delegate?.present(alertController: alertController)
+        }
+    }
+    
 }
 
 // MARK: - UICollectionViewDataSource
@@ -282,6 +311,8 @@ extension ProfileView: UICollectionViewDataSource {
             cell.minusButton.isHidden = true
             return cell
         }
+        cell.id = indexPath.row
+        cell.delegate = self
         if isEditing == true {
             cell.contentView.wobble()
         } else {
@@ -307,4 +338,13 @@ extension ProfileView: UICollectionViewDelegateFlowLayout {
         return CGSize(width: size.width + 20, height: 50)
     }
 
+}
+
+extension ProfileView: RemoveSkillProtocol {
+    
+    func remove(at: Int) {
+        profile.skills.remove(at: at)
+        skillList.reloadData()
+    }
+    
 }

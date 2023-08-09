@@ -8,6 +8,8 @@
 import UIKit
 
 class SkillCell: UICollectionViewCell {
+    var id: Int?
+    var delegate: RemoveSkillProtocol?
     
     lazy var skillText: UILabel = {
         let label = UILabel()
@@ -18,11 +20,12 @@ class SkillCell: UICollectionViewCell {
     
     lazy var minusButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .label
-        button.setImage(UIImage(systemName: "minus.circle"), for: .normal)
+        button.setImage(UIImage(systemName: "minus.circle.fill"), for: .normal)
+        button.tintColor = .systemGray6
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 15 / 2.0
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(didTapMinusButton), for: .touchUpInside)
         return button
     }()
     
@@ -60,6 +63,12 @@ class SkillCell: UICollectionViewCell {
             minusButton.widthAnchor.constraint(equalToConstant: 15.0),
             minusButton.heightAnchor.constraint(equalToConstant: 15.0),
         ])
+    }
+    
+    @objc func didTapMinusButton() {
+        guard let id = id else { return }
+        delegate?.remove(at: id)
+        delegate = nil
     }
     
     required init?(coder: NSCoder) {
